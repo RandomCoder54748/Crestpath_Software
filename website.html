@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crestpath Software | Custom Software & Web Development</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #1d4ed8;
+            --accent-hover: #1e40af;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --success-color: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-btn.active {
+            color: var(--text-primary);
+            background-color: var(--accent-color);
+        }
+
+        main {
+            flex: 1;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 2rem 1rem 3rem;
+        }
+
+        .hero-logo {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            margin-bottom: 0.5rem;
+            color: #60a5fa;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Demo Inventory Table */
+        .inventory-demo {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        .inventory-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--text-secondary);
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn:hover { background-color: var(--accent-hover); }
+        .btn-danger { background-color: #ef4444; }
+        .btn-add { background-color: var(--success-color); color: white; }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="showPage('home')">
+            <img src="logo.png" alt="Crestpath Software Logo" onerror="this.style.display='none'">
+            <span>Crestpath Software</span>
+        </div>
+        <nav>
+            <button id="nav-home" class="nav-btn active" onclick="showPage('home')">Home</button>
+            <button id="nav-services" class="nav-btn" onclick="showPage('services')">Services & Demo</button>
+            <button id="nav-request" class="nav-btn" onclick="showPage('request')">Submit Request</button>
+            <button id="nav-contact" class="nav-btn" onclick="showPage('contact')">Contact</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HOME PAGE -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <img src="logo.png" alt="Crestpath Software Logo" class="hero-logo" onerror="this.style.display='none'">
+                <h1>Custom Software & Web Solutions</h1>
+                <p>We build tailored tools, inventory systems, and modern websites designed specifically for your business needs.</p>
+                <button class="cta-btn" onclick="showPage('request')">Request Your Custom Software</button>
+            </div>
+
+            <h2 style="margin-top: 2rem;">What We Specialize In</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>📦 Inventory Systems</h3>
+                    <p>Track stock levels, monitor item additions and removals, and streamline day-to-day company operations effortlessly.</p>
+                </div>
+                <div class="card">
+                    <h3>💻 Custom Websites</h3>
+                    <p>Clean, modern, and high-performing websites built from scratch to showcase your brand and gather clients.</p>
+                </div>
+                <div class="card">
+                    <h3>⚡ Business Tools</h3>
+                    <p>Custom software utilities, data managers, and internal tools tailored to speed up your workflow.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES & DEMO PAGE -->
+        <section id="services" class="page">
+            <h2>Our Services</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Explore what Crestpath Software can build for your business.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Custom Inventory & Data Systems</h3>
+                    <p>Keep track of products, equipment, sales, or data in real time with simple and clean interfaces.</p>
+                </div>
+                <div class="card">
+                    <h3>Responsive Websites</h3>
+                    <p>Landing pages, portfolios, and multi-page corporate sites optimized for desktop and mobile devices.</p>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 3rem;">Interactive Demo: Simple Inventory System</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Here is a small example of an inventory manager we can build for you:</p>
+
+            <div class="inventory-demo">
+                <div class="inventory-controls">
+                    <input type="text" id="item-name" placeholder="Item Name (e.g. Laptops)">
+                    <input type="number" id="item-qty" placeholder="Quantity" style="max-width: 150px;">
+                    <button class="btn btn-add" onclick="addInventoryItem()">Add Stock</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-list">
+                        <tr>
+                            <td>Office Chairs</td>
+                            <td>12</td>
+                            <td><button class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
+                        </tr>
+                        <tr>
+                            <td>Monitors</td>
+                            <td>8</td>
+                            <td><button class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SUBMIT REQUEST PAGE -->
+        <section id="request" class="page">
+            <h2>Submit a Request</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Tell us what software or website you need built, and we will get back to you with details.</p>
+
+            <!-- Web3Forms Integration -->
+            <form action="https://api.web3forms.com/submit" method="POST" style="background: var(--card-bg); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border-color);">
+                
+                <!-- Replace 'YOUR_ACCESS_KEY_HERE' with your key from web3forms.com -->
+                <input type="hidden" name="apikey" value="YOUR_ACCESS_KEY_HERE">
+
+                <div class="form-group">
+                    <label for="req-name">Your Name / Company</label>
+                    <input type="text" id="req-name" name="Name" required placeholder="John Doe or Acme Inc.">
+                </div>
+
+                <div class="form-group">
+                    <label for="req-email">Your Email Address</label>
+                    <input type="email" id="req-email" name="Email" required placeholder="you@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="req-type">Project Type</label>
+                    <select id="req-type" name="Project Type" required>
+                        <option value="Inventory System">Inventory Management System</option>
+                        <option value="Custom Website">Custom Website</option>
+                        <option value="Business Tool">Custom Internal Tool</option>
+                        <option value="Other">Other Software Request</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="req-details">Project Details & Requirements</label>
+                    <textarea id="req-details" name="Requirements" required placeholder="Describe what you need your project or tool to do..."></textarea>
+                </div>
+
+                <button type="submit" class="cta-btn" style="width: 100%;">Send Request</button>
+            </form>
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section id="contact" class="page">
+            <h2>Contact Us</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Have questions before submitting a request? Reach out directly.</p>
+
+            <div class="card" style="max-width: 500px;">
+                <p><strong>Email Us:</strong></p>
+                <p style="color: #60a5fa; font-size: 1.2rem; margin: 0.5rem 0 1.5rem;">@example.com</p>
+                <p style="color: var(--text-secondary);">Crestpath Software is currently accepting new requests for custom software, inventory systems, and web development.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; <span id="year"></span> Crestpath Software. All rights reserved.
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Navigation tab switcher
+        function showPage(pageId) {
+            var pages = document.querySelectorAll('.page');
+            for (var i = 0; i < pages.length; i++) {
+                pages[i].classList.remove('active');
+            }
+
+            var navBtns = document.querySelectorAll('.nav-btn');
+            for (var j = 0; j < navBtns.length; j++) {
+                navBtns[j].classList.remove('active');
+            }
+
+            var targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            var targetBtn = document.getElementById('nav-' + pageId);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Demo Inventory logic
+        function addInventoryItem() {
+            var nameInput = document.getElementById('item-name');
+            var qtyInput = document.getElementById('item-qty');
+            
+            var name = nameInput.value;
+            var qty = qtyInput.value;
+
+            if (!name || !qty) {
+                alert('Please enter both an item name and a quantity.');
+                return;
+            }
+
+            var tbody = document.getElementById('inventory-list');
+            var tr = document.createElement('tr');
+
+            tr.innerHTML = 
+                '<td>' + escapeHtml(name) + '</td>' +
+                '<td>' + escapeHtml(qty) + '</td>' +
+                '<td><button class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>';
+
+            tbody.appendChild(tr);
+
+            nameInput.value = '';
+            qtyInput.value = '';
+        }
+
+        function removeRow(btn) {
+            var row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
